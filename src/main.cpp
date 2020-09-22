@@ -3,11 +3,11 @@
 
 int main()
 {
-    Vertex eyepointOne(0.0f, 0.0f, 0.0f, 0.0f);
-    Vertex eyepointTwo(0.0f, -1.0f, 0.0f, 0.0f);
+    Vertex eyepointOne(-2.0f, 0.0f, 0.0f, 1.0f);
+    Vertex eyepointTwo(-1.0f, 0.0f, 0.0f, 1.0f);
 
     Camera camera(eyepointOne, eyepointTwo);
-    camera.render();
+    camera.createImage();
 
     return 0; 
 }

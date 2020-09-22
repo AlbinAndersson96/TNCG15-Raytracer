@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
+#include <fstream>
 
 #include <vertex.h>
 #include <pixel.h>
@@ -16,4 +16,5 @@ class Camera
 
         Vertex &eyepointOne, &eyepointTwo;
         std::vector<std::vector<Pixel>> pixels; 
+        int currentEyepoint;
 };
