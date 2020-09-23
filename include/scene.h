@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <colordbl.h>
 #include <triangle.h>
 
 class Scene

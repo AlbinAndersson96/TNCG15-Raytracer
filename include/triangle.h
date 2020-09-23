@@ -14,7 +14,7 @@ class Triangle
     public:
         Triangle(Vertex &v1, Vertex &v2, Vertex &v3, ColorDbl &color);
         ~Triangle();
-        Vertex rayIntersection(Ray& ray);
+        bool rayIntersection(Ray& ray);
 
         Vertex &_v1, &_v2, &_v3;
         ColorDbl &_color;
