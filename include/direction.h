@@ -1,9 +1,11 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 class Direction
 {
     public:
-        Direction(float x, float y, float z);
+        Direction(glm::vec4 direction);
 
-        float x, y, z;
+        glm::vec4 _direction;
 };

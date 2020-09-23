@@ -1,9 +1,11 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 class Vertex
 {
     public:
-        Vertex(float x, float y, float z, float w); 
+        Vertex(glm::vec4 location); 
 
-        float x, y, z, w;
+        glm::vec4 _location;
 };

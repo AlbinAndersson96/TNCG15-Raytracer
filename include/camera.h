@@ -14,7 +14,7 @@ class Camera
         void render();
         void createImage();
 
-        Vertex &eyepointOne, &eyepointTwo;
-        std::vector<std::vector<Pixel>> pixels; 
-        int currentEyepoint;
+        Vertex &_eyepointOne, &_eyepointTwo;
+        std::vector<std::vector<Pixel>> _pixels; 
+        int _currentEyepoint;
 };

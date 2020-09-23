@@ -1,4 +1,4 @@
 #include <direction.h>
 
-Direction::Direction(float x, float y, float z) : x(x), y(y), z(z)
+Direction::Direction(glm::vec4 direction) : _direction(direction)
 {}

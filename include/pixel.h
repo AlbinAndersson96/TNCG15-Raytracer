@@ -10,6 +10,6 @@ class Pixel
     public:
         Pixel();
 
-        ColorDbl color;
-        std::vector<Ray> rays;
+        ColorDbl _color;
+        std::vector<Ray> _rays;
 };

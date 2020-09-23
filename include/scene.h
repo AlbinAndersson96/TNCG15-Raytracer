@@ -10,5 +10,5 @@ class Scene
         Scene();
         void determineIntersections(Ray &ray);
 
-        std::vector<Triangle> triangles;
+        std::vector<Triangle> _triangles;
 };

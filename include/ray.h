@@ -11,7 +11,7 @@ class Ray
     public:
         Ray(Vertex &start, Vertex &end, ColorDbl &color, Triangle &endTriangle);
 
-        Vertex &start, &end;
-        ColorDbl &color;
-        Triangle &endTriangle;
+        Vertex &_start, &_end;
+        ColorDbl &_color;
+        Triangle &_endTriangle;
 };

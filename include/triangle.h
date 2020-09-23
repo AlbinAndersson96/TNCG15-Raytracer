@@ -2,6 +2,8 @@
 
 class Ray; //Forward declaration to fix circular dependancy
 
+#include <glm/glm.hpp>
+
 #include <vertex.h>
 #include <colordbl.h>
 #include <direction.h>
@@ -10,10 +12,11 @@ class Ray; //Forward declaration to fix circular dependancy
 class Triangle
 {
     public:
-        Triangle(Vertex &v1, Vertex &v2, Vertex &v3, ColorDbl &color, Direction normal);
+        Triangle(Vertex &v1, Vertex &v2, Vertex &v3, ColorDbl &color);
+        ~Triangle();
         Vertex rayIntersection(Ray& ray);
 
-        Vertex &v1, &v2, &v3;
-        ColorDbl &color;
-        Direction normal;
+        Vertex &_v1, &_v2, &_v3;
+        ColorDbl &_color;
+        Direction *_normal;
 };

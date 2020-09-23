@@ -1,7 +1,7 @@
 #include <camera.h>
 #include <glm/glm.hpp>
 
-Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo) : eyepointOne(eyepointOne), eyepointTwo(eyepointTwo), currentEyepoint(1)
+Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo) : _eyepointOne(eyepointOne), _eyepointTwo(eyepointTwo), _currentEyepoint(1)
 {
     for(int x = 0; x<800; x++)
     {
@@ -9,12 +9,9 @@ Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo) : eyepointOne(eyepointO
         for(int y = 0; y<800; y++)
         {
             Pixel pixel;
-            pixel.color.r = y*(255.0/800.0);
-            pixel.color.g = 0.0;
-            pixel.color.b = x*(255.0/800.0);
             tempRow.push_back(pixel);
         }
-        pixels.push_back(tempRow);
+        _pixels.push_back(tempRow);
     }
 }
 
@@ -28,7 +25,10 @@ void Camera::render()
     {
         for(int y = 0; y<800; y++)
         {
-            
+            Pixel &pixel = _pixels[x][y];
+            pixel._color._r = y*(255.0/800.0);
+            pixel._color._g = 0.0;
+            pixel._color._b = x*(255.0/800.0);
         }
     }
 }
@@ -44,7 +44,7 @@ void Camera::createImage()
     {
         for(int y = 0; y<800; y++)
         {
-            outFile << (int)pixels[x][y].color.r << " " << (int)pixels[x][y].color.g << " " << (int)pixels[x][y].color.b << "\n";
+            outFile << (int)_pixels[x][y]._color._r << " " << (int)_pixels[x][y]._color._g << " " << (int)_pixels[x][y]._color._b << "\n";
         }
     }
     outFile.close();
