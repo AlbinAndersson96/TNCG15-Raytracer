@@ -1,57 +1,61 @@
 #include <triangle.h>
 
-Triangle::Triangle(Vertex &v1, Vertex &v2, Vertex &v3, ColorDbl &color) : _v1(v1), _v2(v2), _v3(v3), _color(color)
+Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, ColorDbl color) : _v0(v0), _v1(v1), _v2(v2), _color(color)
 {
     // Calculate surface normal by crossing 2 edges of triangle, converted from homogenous to cartesian coordinates for safety
-    glm::vec3 surfaceNormal = glm::cross(
-                                glm::vec3(glm::vec3(v1._location.x/v1._location.w, v1._location.y/v1._location.w, v1._location.z/v1._location.w)) - glm::vec3(glm::vec3(v3._location.x/v3._location.w, v3._location.y/v3._location.w, v3._location.z/v3._location.w)),
-                                glm::vec3(glm::vec3(v3._location.x/v3._location.w, v3._location.y/v3._location.w, v3._location.z/v3._location.w)) - glm::vec3(glm::vec3(v2._location.x/v2._location.w, v2._location.y/v2._location.w, v2._location.z/v2._location.w))
-                            );
+    glm::vec3 surfaceNormal = glm::normalize(glm::cross(
+                                glm::vec3(glm::vec3(v1._location.x/v0._location.w, v0._location.y/v0._location.w, v0._location.z/v1._location.w)) - glm::vec3(glm::vec3(v2._location.x/v2._location.w, v2._location.y/v2._location.w, v2._location.z/v2._location.w)),
+                                glm::vec3(glm::vec3(v2._location.x/v2._location.w, v2._location.y/v2._location.w, v2._location.z/v2._location.w)) - glm::vec3(glm::vec3(v1._location.x/v1._location.w, v1._location.y/v1._location.w, v1._location.z/v1._location.w))
+                            ));
     _normal = new Direction(glm::vec4(surfaceNormal, 1.0f));
 }
 
 Triangle::~Triangle()
 {
-    delete _normal;
+    //delete _normal;
 }
 
 bool Triangle::rayIntersection(Ray& ray)
 {
-    //This particular implementation of Möller-Trumbore was found on Stackoverflow and rewritten to fit this program
+    const float EPSILON = 0.0000001f;
+    glm::vec3 v0 = _v0._location;
+    glm::vec3 v1 = _v1._location;
+    glm::vec3 v2 = _v2._location;
 
-    float epsilon = 0.000001f;
-    glm::vec3 v1v2 = _v2._location - _v1._location;
-    glm::vec3 v1v3 = _v3._location - _v1._location;
-    //NOTE: No conversion from homogenous to cartesian, only discarding W. Will be wrong if perspective transformed
-    glm::vec3 p = glm::cross(glm::vec3(ray._end), glm::vec3(v1v3));
+    glm::vec3 rayDir = ray._end - ray._start;
 
-    float det = glm::dot(glm::vec3(v1v2), p);
+    glm::vec3 e1, e2, h, s, q;
+    float a, f, u, v;
 
-    if(det < epsilon && det > -epsilon)
+    e1 = v1 - v0;
+    e2 = v2 - v0;
+
+    h = glm::cross(rayDir, e2);
+    a = glm::dot(e1, h);
+
+    if(a > -EPSILON && a < EPSILON)
         return false;
 
-    float inverseDet = 1.0f/det;
+    f = 1.0f/a;
+    s = glm::vec3(ray._start) - v0;
+    u = f * glm::dot(s, h);
 
-    glm::vec3 t = ray._start - _v1._location;
-
-    float u = glm::dot(t, p) * inverseDet;
-    if(u < 0 || u > 1)
+    if(u < 0.0f || u > 1.0f)
         return false;
 
-    glm::vec3 q = glm::cross(t, v1v2);
+    q = glm::cross(s, e1);
+    v = f * glm::dot(rayDir, q);
 
-    float v = glm::dot(glm::vec3(ray._end - ray._start), q) * inverseDet;
-    if(v < 0 || v > 1)
+    if(v < 0.0f || u+v > 1.0f)
         return false;
 
-    float t = glm::dot(v1v3, q) * inverseDet;
-
-    //TODO: Pass intersection point to ray
-
-    glm::vec3 intersection = glm::vec3(_v1._location) + u*v1v3+ + v*v1v2;
-
-    ray._endTriangle = this;
-    ray._intersectionPoint = glm::vec4(intersection, 1.0f);
-
-    return true;
+    float t = f * glm::dot(e2, q);
+    if(t > EPSILON)
+    {
+        ray._intersectionPoint = ray._start + t * glm::vec4(rayDir, 1);
+        ray._color = _color;
+        return true;
+    }
+    else
+        return false;
 }

@@ -6,14 +6,14 @@
 
 int main()
 {
-    Scene scene();
+    Scene scene;
 
     Vertex eyepointOne(glm::vec4(-2.0f, 0.0f, 0.0f, 1.0f));
     Vertex eyepointTwo(glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f));
 
     Camera camera(eyepointOne, eyepointTwo);
-    camera._currentEyepoint = 1; //First eyepoint 1, second 2
-    camera.render();
+    camera._currentEyepoint = 2; //First eyepoint 1, second 2
+    camera.render(scene);
     camera.createImage();
 
     return 0; 

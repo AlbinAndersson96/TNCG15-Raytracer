@@ -35,34 +35,34 @@ Back  2\         /5 Front    ------->x
     ColorDbl roomColor(255.0, 255.0, 255.0);
 
     //Triangles of the room
-    //Roof
-    Triangle t1(roof1, roof3, roof2, roomColor);
-    Triangle t2(roof1, roof4, roof3, roomColor);
-    Triangle t3(roof4, roof6, roof3, roomColor);
-    Triangle t4(roof4, roof5, roof6, roomColor);
-    //Floor
-    Triangle t5(floor1, floor3, floor2, roomColor);
-    Triangle t6(floor1, floor4, floor3, roomColor);
-    Triangle t7(floor4, floor6, floor3, roomColor);
-    Triangle t8(floor4, floor5, floor6, roomColor);
-    //Back-Left
-    Triangle t9(roof1, roof2, floor1, roomColor);
-    Triangle t10(floor1, roof2, floor2, roomColor);
+    //Roof, Colored Magenta
+    Triangle t1(roof1, roof3, roof2, ColorDbl(255.0, 0.0, 255.0));
+    Triangle t2(roof1, roof4, roof3, ColorDbl(255.0, 0.0, 255.0));
+    Triangle t3(roof4, roof6, roof3, ColorDbl(255.0, 0.0, 255.0));
+    Triangle t4(roof4, roof5, roof6, ColorDbl(255.0, 0.0, 255.0));
+    //Floor, Colored Yellow
+    Triangle t5(floor1, floor3, floor2, ColorDbl(255.0, 255.0, 0.0));
+    Triangle t6(floor1, floor4, floor3, ColorDbl(255.0, 255.0, 0.0));
+    Triangle t7(floor4, floor6, floor3, ColorDbl(255.0, 255.0, 0.0));
+    Triangle t8(floor4, floor5, floor6, ColorDbl(255.0, 255.0, 0.0));
+    //Back-Left, All walls colored Cyan
+    Triangle t9(roof1, roof2, floor1, ColorDbl(0.0, 255.0, 255.0));
+    Triangle t10(floor1, roof2, floor2, ColorDbl(0.0, 255.0, 255.0));
     //Back-Right
-    Triangle t11(roof2, roof3, floor2, roomColor);
-    Triangle t12(floor2, roof3, floor3, roomColor);
+    Triangle t11(roof2, roof3, floor2, ColorDbl(0.0, 00.0, 255.0));
+    Triangle t12(floor2, roof3, floor3, ColorDbl(0.0, 255.0, 255.0));
     //Left
-    Triangle t13(roof1, floor4, roof4, roomColor);
-    Triangle t14(roof1, floor1, roof4, roomColor);
+    Triangle t13(roof1, floor4, roof4, ColorDbl(0.0, 255.0, 255.0));
+    Triangle t14(roof1, floor1, roof4, ColorDbl(0.0, 255.0, 255.0));
     //Right
-    Triangle t15(roof3, roof6, floor3, roomColor);
-    Triangle t16(roof6, floor6, floor3, roomColor);
+    Triangle t15(roof3, roof6, floor3, ColorDbl(0.0, 255.0, 255.0));
+    Triangle t16(roof6, floor6, floor3, ColorDbl(0.0, 255.0, 255.0));
     //Front-Left
-    Triangle t17(roof5, roof4, floor5, roomColor);
-    Triangle t18(floor5, roof4, floor4, roomColor);
+    Triangle t17(roof5, roof4, floor5, ColorDbl(0.0, 255.0, 255.0));
+    Triangle t18(floor5, roof4, floor4, ColorDbl(0.0, 0.0, 255.0));
     //Front-Right
-    Triangle t19(roof6, roof5, floor6, roomColor);
-    Triangle t20(floor6, roof5, floor6, roomColor);
+    Triangle t19(roof6, roof5, floor6, ColorDbl(0.0, 255.0, 255.0));
+    Triangle t20(floor6, roof5, floor5, ColorDbl(0.0, 0.0, 255.0));
 
     //There must exist an easier way to do this... can't bother to look for it tho
     _triangles.push_back(t1);
@@ -85,13 +85,16 @@ Back  2\         /5 Front    ------->x
     _triangles.push_back(t18);
     _triangles.push_back(t19);
     _triangles.push_back(t20);
-
 }
 
 void Scene::determineIntersections(Ray &ray)
 {
+    int counter = 0;
     for(Triangle triangle : _triangles)
     {
-        triangle.rayIntersection(ray);
+        if(triangle.rayIntersection(ray))
+            counter++;
     }
+    if(counter == 0)
+        std::cout << "0" << std::endl;
 }

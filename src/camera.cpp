@@ -18,17 +18,36 @@ Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo) : _eyepointOne(eyepoint
 Camera::~Camera()
 {}
 
-void Camera::render()
+void Camera::render(Scene &scene)
 {
+    float pixelSideLength = 1.0f/800.0f;
+
     //TODO: Implement render()
     for(int x = 0; x<800; x++)
     {
         for(int y = 0; y<800; y++)
         {
+            std::cout << "\r" << "Rendering pixel: " << x << " " << y << std::flush;
+            //std::cout << "Rendering pixel: " << x << " " << y << std::endl;
+
             Pixel &pixel = _pixels[x][y];
-            pixel._color._r = y*(255.0/800.0);
-            pixel._color._g = 0.0;
-            pixel._color._b = x*(255.0/800.0);
+            
+            //float deltaY = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+            //float deltaZ = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+            glm::vec3 rayPixelIntersect(0.0f, static_cast<float>(y-401)*pixelSideLength, static_cast<float>(x-401)*pixelSideLength);
+
+            ColorDbl rayColor(0.0, 0.0, 0.0);
+
+            Vertex phV(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+            Triangle triangle(phV, phV, phV, rayColor); //Have to feed an empty placeholder into Triangle to construct
+
+            Ray ray(_eyepointTwo._location, glm::vec4(rayPixelIntersect, 1.0f), rayColor, &triangle);
+
+            scene.determineIntersections(ray);
+
+            //pixel._rays.push_back(ray);
+
+            pixel._color = ray._color;
         }
     }
 }
