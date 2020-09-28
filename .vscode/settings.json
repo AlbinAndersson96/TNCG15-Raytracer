@@ -1,0 +1,10 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "files.associations": {
+        "atomic": "cpp",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "string": "cpp",
+        "ranges": "cpp"
+    }
+}

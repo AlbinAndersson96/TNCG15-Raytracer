@@ -15,7 +15,7 @@
 class Camera
 {
     public:
-        Camera(Vertex &eyepointOne, Vertex &eyepointTwo);
+        Camera(Vertex &eyepointOne, Vertex &eyepointTwo, int raysPerPixel);
         ~Camera();
         void render(Scene &scene);
         void createImage();
@@ -23,4 +23,5 @@ class Camera
         Vertex &_eyepointOne, &_eyepointTwo;
         std::vector<std::vector<Pixel>> _pixels; 
         int _currentEyepoint;
+        int _raysPerPixel;
 };

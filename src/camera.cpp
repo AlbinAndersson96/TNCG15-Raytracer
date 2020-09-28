@@ -1,7 +1,7 @@
 #include <camera.h>
 #include <glm/glm.hpp>
 
-Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo) : _eyepointOne(eyepointOne), _eyepointTwo(eyepointTwo), _currentEyepoint(1)
+Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo, int raysPerPixel) : _eyepointOne(eyepointOne), _eyepointTwo(eyepointTwo), _currentEyepoint(1), _raysPerPixel(raysPerPixel)
 {
     for(int x = 0; x<800; x++)
     {
@@ -22,39 +22,39 @@ void Camera::render(Scene &scene)
 {
     float pixelSideLength = 1.0f/800.0f;
 
-    //TODO: Implement render()
     for(int x = 0; x<800; x++)
     {
         for(int y = 0; y<800; y++)
         {
-            std::cout << "\r" << "Rendering pixel: " << x << " " << y << std::flush;
-            //std::cout << "Rendering pixel: " << x << " " << y << std::endl;
-
+            std::cout << "\r" << "Rendering pixel: " << x << " x " << y << std::flush;
             Pixel &pixel = _pixels[x][y];
-            
-            //float deltaY = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-            //float deltaZ = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-            glm::vec3 rayPixelIntersect(0.0f, static_cast<float>(y-401)*pixelSideLength, static_cast<float>(x-401)*pixelSideLength);
 
-            ColorDbl rayColor(0.0, 0.0, 0.0);
+            ColorDbl accumulativeColor(0.0, 0.0, 0.0);
 
-            Vertex phV(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
-            Triangle triangle(phV, phV, phV, rayColor); //Have to feed an empty placeholder into Triangle to construct
+            for(int rayNr = 0; rayNr < _raysPerPixel; rayNr++)
+            {                
+                float deltaY = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                float deltaZ = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+                glm::vec3 rayPixelIntersect(0.0f, static_cast<float>(y-401 + deltaY)*pixelSideLength, static_cast<float>(x-401 + deltaZ)*pixelSideLength);
+    
+                ColorDbl rayColor(0.0, 0.0, 0.0);
+    
+                Vertex phV(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+                Triangle triangle(phV, phV, phV, rayColor); //Have to feed an empty placeholder into Triangle to construct
+    
+                Ray ray(_eyepointTwo._location, glm::vec4(rayPixelIntersect, 1.0f), rayColor, &triangle);
+    
+                scene.determineIntersections(ray);
+                accumulativeColor += ray._color;
+            }
 
-            Ray ray(_eyepointTwo._location, glm::vec4(rayPixelIntersect, 1.0f), rayColor, &triangle);
-
-            scene.determineIntersections(ray);
-
-            //pixel._rays.push_back(ray);
-
-            pixel._color = ray._color;
+            pixel._color = accumulativeColor / _raysPerPixel;
         }
     }
 }
 
 void Camera::createImage()
 {
-    //TODO: Implement createImage()
     std::ofstream outFile;
     outFile.open("out.ppm");
     outFile << "P3\n800 800\n255\n";
