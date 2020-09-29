@@ -5,7 +5,6 @@ class Ray; //Forward declaration to fix circular dependancy
 #include <glm/glm.hpp>
 
 #include <vertex.h>
-#include <colordbl.h>
 #include <material.h>
 #include <direction.h>
 #include <ray.h>
