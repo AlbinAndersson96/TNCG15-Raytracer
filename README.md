@@ -10,7 +10,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
 To build for Debug with debugging information present just substitute Release with Debug.
-```
+
 This should create the /bin path
 
 To then run
