@@ -8,6 +8,8 @@ set(BIN_DIR "bin")
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "${CMAKE_CXX_FLAGS} -std=c++14 -g")
 set(CMAKE_CXX_FLAGS_DEBUG_RELEASE "${CMAKE_CXX_FLAGS} -std=c++14")
 
+add_definitions(-DCMAKE_EXPORT_COMPILE_COMMANDS=ON)
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
     message(STATUS "Build type not specified: Use Release by default")

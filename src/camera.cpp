@@ -20,6 +20,8 @@ Camera::~Camera()
 
 void Camera::render(Scene &scene)
 {
+    std::cout << "Starting render with " << _raysPerPixel << " rays per pixel." << std::endl;
+
     float pixelSideLength = 1.0f/800.0f;
 
     for(int x = 0; x<800; x++)

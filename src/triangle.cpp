@@ -1,6 +1,6 @@
 #include <triangle.h>
 
-Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, ColorDbl color) : _v0(v0), _v1(v1), _v2(v2), _color(color)
+Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, Material material) : _v0(v0), _v1(v1), _v2(v2), _material(material)
 {
     // Calculate surface normal by crossing 2 edges of triangle, converted from homogenous to cartesian coordinates for safety
     glm::vec3 surfaceNormal = glm::normalize(glm::cross(
@@ -53,7 +53,7 @@ bool Triangle::rayIntersection(Ray& ray)
     if(t > EPSILON)
     {
         ray._intersectionPoint = ray._start + t * glm::vec4(rayDir, 1);
-        ray._color = _color;
+        ray._color = _material._color;
         return true;
     }
     else

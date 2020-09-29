@@ -5,6 +5,7 @@
 
 #include <colordbl.h>
 #include <triangle.h>
+#include <material.h>
 
 class Scene
 {
