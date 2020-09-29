@@ -1,0 +1,3 @@
+*
+!.gitignore
+#Here only to make sure /build gets added to the repo, saving a step when cloning and building.
