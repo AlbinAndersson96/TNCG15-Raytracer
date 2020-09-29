@@ -4,7 +4,7 @@ A Monte-Carlo raytracer implemented for the course TNCG15 at Linköping Universi
 ## Build instructions
 From root of repo
 ```shell
-mkdir build && cd build
+cd build
 cmake ..
 make
 ```
