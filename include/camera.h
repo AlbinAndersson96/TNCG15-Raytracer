@@ -18,14 +18,13 @@
 class Camera
 {
     public:
-        Camera(Vertex &eyepointOne, Vertex &eyepointTwo, int raysPerPixel);
+        Camera(int raysPerPixel, int eyePoint);
         ~Camera();
         void render(Scene &scene);
         void renderPixel(int x, int y, Scene &scene);
         void createImage();
 
-        Vertex &_eyepointOne, &_eyepointTwo;
+        Vertex _eyePoint;
         std::vector<std::vector<Pixel>> _pixels; 
-        int _currentEyepoint;
         int _raysPerPixel;
 };

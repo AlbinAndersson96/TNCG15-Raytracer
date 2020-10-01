@@ -17,4 +17,5 @@ class Ray
         ColorDbl _color;
         Triangle *_endTriangle;
         glm::vec4 _intersectionPoint;
+        float _t;
 };

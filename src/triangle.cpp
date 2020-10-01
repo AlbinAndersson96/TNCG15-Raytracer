@@ -52,8 +52,12 @@ bool Triangle::rayIntersection(Ray& ray)
     float t = f * glm::dot(e2, q);
     if(t > EPSILON)
     {
-        ray._intersectionPoint = ray._start + t * glm::vec4(rayDir, 1);
-        ray._color = _material._color;
+        if(t < ray._t)
+        {
+            ray._t = t;
+            ray._intersectionPoint = ray._start + t * glm::vec4(rayDir, 1);
+            ray._color = _material._color;
+        }
         return true;
     }
     else

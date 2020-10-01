@@ -6,6 +6,7 @@
 #include <colordbl.h>
 #include <triangle.h>
 #include <material.h>
+#include <entity.h>
 
 class Scene
 {
@@ -13,5 +14,6 @@ class Scene
         Scene();
         void determineIntersections(Ray &ray);
 
-        std::vector<Triangle> _triangles;
+        std::vector<Triangle> _roomTriangles;
+        std::vector<Entity*> _entities;
 };

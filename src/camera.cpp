@@ -1,8 +1,14 @@
 #include <camera.h>
 #include <glm/glm.hpp>
 
-Camera::Camera(Vertex &eyepointOne, Vertex &eyepointTwo, int raysPerPixel) : _eyepointOne(eyepointOne), _eyepointTwo(eyepointTwo), _currentEyepoint(1), _raysPerPixel(raysPerPixel)
+Camera::Camera(int raysPerPixel, int eyePoint) :_raysPerPixel(raysPerPixel), _eyePoint(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f))
 {
+    if(eyePoint == 1)
+        _eyePoint = glm::vec4(-2.0f, 0.0f, 0.0f, 1.0f);
+    else if(eyePoint == 2)
+        _eyePoint = glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f);
+
+
     for(int x = 0; x<800; x++)
     {
         std::vector<Pixel> tempRow;
@@ -64,7 +70,7 @@ void Camera::renderPixel(int x, int y, Scene &scene)
         Vertex phV(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
         Triangle triangle(phV, phV, phV, rayColor); //Have to feed an empty placeholder into Triangle to construct
     
-        Ray ray(_eyepointTwo._location, glm::vec4(rayPixelIntersect, 1.0f), rayColor, &triangle);
+        Ray ray(_eyePoint._location, glm::vec4(rayPixelIntersect, 1.0f), rayColor, &triangle);
     
         scene.determineIntersections(ray);
         accumulativeColor += ray._color;
@@ -83,7 +89,13 @@ void Camera::createImage()
     {
         for(int y = 0; y<800; y++)
         {
-            outFile << (int)_pixels[x][y]._color._r << " " << (int)_pixels[x][y]._color._g << " " << (int)_pixels[x][y]._color._b << "\n";
+            double brightestColor = _pixels[x][y]._color._r;
+            if(_pixels[x][y]._color._g > brightestColor)
+                brightestColor = _pixels[x][y]._color._g;
+            if(_pixels[x][y]._color._b > brightestColor)
+                brightestColor = _pixels[x][y]._color._b;
+
+            outFile << (int)(255.99*_pixels[x][y]._color._r/brightestColor) << " " << (int)(255.99*_pixels[x][y]._color._g/brightestColor) << " " << (int)(255.99*_pixels[x][y]._color._b/brightestColor) << "\n";
         }
     }
     outFile.close();

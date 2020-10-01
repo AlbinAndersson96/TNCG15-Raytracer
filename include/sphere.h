@@ -1,18 +1,22 @@
 #pragma once
 
 #include <glm/glm.hpp>
+
+#include <entity.h>
+
 #include <material.h>
 #include <ray.h>
+#include <vertex.h>
 #include <direction.h>
 
-class Sphere
+class Sphere : public Entity
 {
     public:
-        Sphere(glm::vec3 position, Material material, float radius);
+        Sphere(Vertex position, Material material, float radius);
 
-        bool rayIntersection(Ray& ray);
+        virtual void rayIntersection(Ray &ray);
 
-        glm::vec3 _position;
+        Vertex _position;
         Material _material;
         float _radius;
 };
