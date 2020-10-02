@@ -2,7 +2,7 @@
 A path tracer implemented for the course TNCG15 at Linköping University.
 
 ## Build dependencies
-*GLM
+* GLM
 
 ## Build instructions
 The default is to build for Release. To be explicit follow instructions below.
