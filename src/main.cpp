@@ -5,6 +5,7 @@
 #include <colordbl.h>
 #include <tetrahedron.h>
 #include <sphere.h>
+#include <lightsource.h>
 #include <camera.h>
 #include <scene.h>
 
@@ -25,8 +26,15 @@ int main()
     Material sphereMat(sphereColor);
     Sphere sphere(sphereV, sphereMat, 1.0f);
 
+    Vertex lightV(glm::vec4(10.0f, 2.0f, 0.0f, 1.0f));
+    ColorDbl lightColor(1.0, 0.0, 1.0);
+    Material lightMat(lightColor);
+    Lightsource lightSource(lightV, 1.0f, lightMat);
+
     scene._entities.push_back(&tetrahedron);
     scene._entities.push_back(&sphere);
+
+    scene._lightSources.push_back(lightSource);
 
     Camera camera(1, 2);
     camera.render(scene);

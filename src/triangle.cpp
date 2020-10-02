@@ -22,7 +22,7 @@ bool Triangle::rayIntersection(Ray& ray)
     glm::vec3 v1 = _v1._location;
     glm::vec3 v2 = _v2._location;
 
-    glm::vec3 rayDir = ray._end - ray._start;
+    glm::vec3 rayDir = ray._direction;
 
     glm::vec3 e1, e2, h, s, q;
     float a, f, u, v;

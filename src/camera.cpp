@@ -70,7 +70,7 @@ void Camera::renderPixel(int x, int y, Scene &scene)
         Vertex phV(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
         Triangle triangle(phV, phV, phV, rayColor); //Have to feed an empty placeholder into Triangle to construct
     
-        Ray ray(_eyePoint._location, glm::vec4(rayPixelIntersect, 1.0f), rayColor, &triangle);
+        Ray ray(_eyePoint._location, glm::normalize(glm::vec4(rayPixelIntersect, 1.0f) - _eyePoint._location), rayColor, &triangle);
     
         scene.determineIntersections(ray);
         accumulativeColor += ray._color;

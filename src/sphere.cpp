@@ -5,7 +5,7 @@ Sphere::Sphere(Vertex position, Material material, float radius) : _position(pos
 
 void Sphere::rayIntersection(Ray &ray)
 {
-    glm::vec4 rayDir = glm::normalize(ray._end - ray._start);
+    glm::vec4 rayDir = ray._direction;
     float a = glm::dot(rayDir, rayDir);
     float b = glm::dot(2.0f*rayDir, ray._start - _position._location);
     float c = glm::dot((ray._start - _position._location), ray._start - _position._location) - _radius*_radius;

@@ -6,7 +6,7 @@ Scene::Scene()
 
     /*
         From above  
-        
+                        
          Left               ^y
        1 _______4           |  
         /       \           | 
@@ -100,4 +100,7 @@ void Scene::determineIntersections(Ray &ray)
 
     for(Entity *entity : _entities)
         entity->rayIntersection(ray);
+
+    for(Lightsource lightSource : _lightSources)
+        lightSource.rayIntersection(ray);
 }
