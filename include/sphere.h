@@ -7,7 +7,6 @@
 #include <material.h>
 #include <ray.h>
 #include <vertex.h>
-#include <direction.h>
 
 class Sphere : public Entity
 {

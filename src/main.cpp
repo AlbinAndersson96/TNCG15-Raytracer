@@ -6,12 +6,15 @@
 #include <tetrahedron.h>
 #include <sphere.h>
 #include <lightsource.h>
+#include <room.h>
 #include <camera.h>
 #include <scene.h>
 
 int main()
 {
     Scene scene;
+
+    Room room;
 
     Vertex tetraV0(glm::vec4(10.0f, 0.0f, 1.0f, 1.0f));
     Vertex tetraV1(glm::vec4(10.0f, -1.0f, -1.0f, 1.0f));
@@ -31,12 +34,12 @@ int main()
     Material lightMat(lightColor);
     Lightsource lightSource(lightV, 1.0f, lightMat);
 
+    scene._entities.push_back(&room);
     scene._entities.push_back(&tetrahedron);
     scene._entities.push_back(&sphere);
+    scene._entities.push_back(&lightSource);
 
-    scene._lightSources.push_back(lightSource);
-
-    Camera camera(1, 2);
+    Camera camera(10, 2);
     camera.render(scene);
     camera.createImage();
 
