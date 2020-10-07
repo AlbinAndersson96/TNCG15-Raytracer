@@ -60,17 +60,14 @@ void Camera::renderPixel(int x, int y, Scene &scene)
     ColorDbl accumulativeColor(0.0, 0.0, 0.0);
 
     for(int rayNr = 0; rayNr < _raysPerPixel; rayNr++)
-    {                
+    {
         float deltaY = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
         float deltaZ = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
         glm::vec3 rayPixelIntersect(0.0f, static_cast<float>(y-401 + deltaY)*pixelSideLength, static_cast<float>(x-401 + deltaZ)*pixelSideLength);
     
         ColorDbl rayColor(0.0, 0.0, 0.0);
     
-        Vertex phV(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
-        Triangle triangle(phV, phV, phV, rayColor); //Have to feed an empty placeholder into Triangle to construct
-    
-        Ray ray(_eyePoint._location, glm::normalize(glm::vec4(rayPixelIntersect, 1.0f) - _eyePoint._location), rayColor, &triangle);
+        Ray ray(_eyePoint._location, glm::normalize(glm::vec4(rayPixelIntersect, 1.0f) - _eyePoint._location), rayColor);
     
         scene.determineIntersections(ray);
         accumulativeColor += ray._color;
@@ -95,7 +92,7 @@ void Camera::createImage()
             if(_pixels[x][y]._color._b > brightestColor)
                 brightestColor = _pixels[x][y]._color._b;
 
-            outFile << (int)(255.99*_pixels[x][y]._color._r/brightestColor) << " " << (int)(255.99*_pixels[x][y]._color._g/brightestColor) << " " << (int)(255.99*_pixels[x][y]._color._b/brightestColor) << "\n";
+            outFile << (int)(255.99*_pixels[x][y]._color._r) << " " << (int)(255.99*_pixels[x][y]._color._g) << " " << (int)(255.99*_pixels[x][y]._color._b) << "\n";
         }
     }
     outFile.close();

@@ -2,11 +2,11 @@
 
 Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, Material material) : _v0(v0), _v1(v1), _v2(v2), _material(material)
 {
-    // Calculate surface normal by crossing 2 edges of triangle, converted from homogenous to cartesian coordinates for safety
-    glm::vec3 surfaceNormal = glm::normalize(glm::cross(
-                                glm::vec3(glm::vec3(v1._location.x/v0._location.w, v0._location.y/v0._location.w, v0._location.z/v1._location.w)) - glm::vec3(glm::vec3(v2._location.x/v2._location.w, v2._location.y/v2._location.w, v2._location.z/v2._location.w)),
-                                glm::vec3(glm::vec3(v2._location.x/v2._location.w, v2._location.y/v2._location.w, v2._location.z/v2._location.w)) - glm::vec3(glm::vec3(v1._location.x/v1._location.w, v1._location.y/v1._location.w, v1._location.z/v1._location.w))
-                            ));
+    // Calculate surface normal by crossing 2 edges of triangle, no conversion from homogenous coordinates.
+    // NOTE: WILL BREAK IF PROJECTED (W changed)
+    glm::vec3 U = glm::vec3(v1._location.x - v0._location.x, v1._location.y - v0._location.y, v1._location.z - v0._location.z);
+    glm::vec3 V = glm::vec3(v2._location.x - v0._location.x, v2._location.y - v0._location.y, v2._location.z - v0._location.z);
+    glm::vec3 surfaceNormal = glm::normalize(glm::cross(U, V));
     _normal = glm::vec4(surfaceNormal, 1.0f);
 }
 
@@ -51,7 +51,7 @@ void Triangle::rayIntersection(Ray& ray)
         {
             ray._t = t;
             ray._intersectionPoint = ray._start + t * glm::vec4(rayDir, 1);
-            ray._color = _material._color;
+            ray._color = _material._color * glm::abs(glm::dot(_normal, ray._direction));
         }
         return;
     }

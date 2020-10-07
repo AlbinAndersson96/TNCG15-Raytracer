@@ -2,10 +2,9 @@
 
 #include <glm/glm.hpp>
 
-#include <entity.h>
-
-#include <material.h>
 #include <ray.h>
+#include <entity.h>
+#include <material.h>
 #include <vertex.h>
 
 class Sphere : public Entity
@@ -18,4 +17,5 @@ class Sphere : public Entity
         Vertex _position;
         Material _material;
         float _radius;
+        glm::vec4 _normal;
 };

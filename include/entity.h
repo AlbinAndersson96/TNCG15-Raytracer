@@ -1,5 +1,7 @@
 #pragma once
 
+class Ray; //Forward declaration to fix circular dependancy
+
 #include <ray.h>
 
 class Entity

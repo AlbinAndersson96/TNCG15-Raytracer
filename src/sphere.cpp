@@ -17,12 +17,14 @@ void Sphere::rayIntersection(Ray &ray)
     {
         ray._t = dPos;                                                                                                              
         ray._intersectionPoint = ray._start + dPos*rayDir;
-        ray._color = _material._color;
+        _normal = glm::normalize(ray._intersectionPoint - _position._location);
+        ray._color = _material._color * glm::abs(glm::dot(_normal, ray._direction));
     }
     else if(dPos > dNeg && dNeg > 0)
     {
         ray._t = dNeg;
         ray._intersectionPoint = ray._start + dNeg*rayDir;
-        ray._color = _material._color;
+        _normal = glm::normalize(ray._intersectionPoint - _position._location);
+        ray._color = _material._color * glm::abs(glm::dot(_normal, ray._direction));
     }
 }

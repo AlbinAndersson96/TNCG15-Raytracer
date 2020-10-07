@@ -36,9 +36,9 @@ Back  2\         /5 Front    ------->x
     ColorDbl yellow(1.0, 1.0, 0.0);
     ColorDbl cyan(0.0, 1.0, 1.0);
 
-    Material magentaMat(magenta);
-    Material yellowMat(yellow);
-    Material cyanMat(cyan);
+    Material magentaMat(magenta, false);
+    Material yellowMat(yellow, false);
+    Material cyanMat(cyan, false);
 
     //Triangles of the room
     //Roof, Colored Magenta

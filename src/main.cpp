@@ -21,17 +21,17 @@ int main()
     Vertex tetraV2(glm::vec4(9.0f, 0.0f, -1.0f, 1.0f));
     Vertex tetraV3(glm::vec4(10.0f, 1.0f, -1.0f, 1.0f));
     ColorDbl tetraColor(1.0, 1.0, 0.0);
-    Material tetraMat(tetraColor);
+    Material tetraMat(tetraColor, false);
     Tetrahedron tetrahedron(tetraV0, tetraV1, tetraV2, tetraV3, tetraMat);
     
     Vertex sphereV(glm::vec4(10.0f, -2.0f, 0.0f, 1.0f));
     ColorDbl sphereColor(1.0, 1.0, 1.0);
-    Material sphereMat(sphereColor);
+    Material sphereMat(sphereColor, false);
     Sphere sphere(sphereV, sphereMat, 1.0f);
 
     Vertex lightV(glm::vec4(10.0f, 2.0f, 0.0f, 1.0f));
     ColorDbl lightColor(1.0, 0.0, 1.0);
-    Material lightMat(lightColor);
+    Material lightMat(lightColor, true);
     Lightsource lightSource(lightV, 1.0f, lightMat);
 
     scene._entities.push_back(&room);
