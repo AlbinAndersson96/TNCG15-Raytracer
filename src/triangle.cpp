@@ -2,11 +2,10 @@
 
 Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, Material material) : _v0(v0), _v1(v1), _v2(v2), _material(material)
 {
-    // Calculate surface normal by crossing 2 edges of triangle, no conversion from homogenous coordinates.
-    // NOTE: WILL BREAK IF PROJECTED (W changed)
-    glm::vec3 U = glm::vec3(v1._location.x - v0._location.x, v1._location.y - v0._location.y, v1._location.z - v0._location.z);
-    glm::vec3 V = glm::vec3(v2._location.x - v0._location.x, v2._location.y - v0._location.y, v2._location.z - v0._location.z);
-    glm::vec3 surfaceNormal = glm::normalize(glm::cross(U, V));
+    // Calculate surface normal by crossing 2 edges of triangle
+    glm::vec4 U = v1._location/v1._location.w - v0._location/v0._location.w;
+    glm::vec4 V = v2._location/v2._location.w - v0._location/v0._location.w;
+    glm::vec3 surfaceNormal = glm::normalize(glm::cross(glm::vec3(U), glm::vec3(V)));
     _normal = glm::vec4(surfaceNormal, 1.0f);
     
 }
@@ -14,11 +13,11 @@ Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, Material material) : _v0(v0)
 void Triangle::rayIntersection(Ray& ray)
 {
     const float EPSILON = 0.0000001f;
-    glm::vec3 v0 = _v0._location;
-    glm::vec3 v1 = _v1._location;
-    glm::vec3 v2 = _v2._location;
+    glm::vec3 v0 = _v0._location/_v0._location.w;
+    glm::vec3 v1 = _v1._location/_v1._location.w;
+    glm::vec3 v2 = _v2._location/_v2._location.w;
 
-    glm::vec3 rayDir = ray._direction;
+    glm::vec3 rayDir = ray._direction/ray._direction.w;
 
     glm::vec3 e1, e2, h, s, q;
     float a, f, u, v;
@@ -33,7 +32,7 @@ void Triangle::rayIntersection(Ray& ray)
         return;
 
     f = 1.0f/a;
-    s = glm::vec3(ray._start) - v0;
+    s = glm::vec3(ray._start/ray._start.w) - v0;
     u = f * glm::dot(s, h);
 
     if(u < 0.0f || u > 1.0f)

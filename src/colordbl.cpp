@@ -3,6 +3,9 @@
 ColorDbl::ColorDbl(double r, double g, double b) : _r(r), _g(g), _b(b)
 {}
 
+ColorDbl::ColorDbl() : _r(0.0), _g(0.0), _b(0.0)
+{}
+
 ColorDbl& ColorDbl::operator+(ColorDbl& rhs)
 {
     this->_r += rhs._r;

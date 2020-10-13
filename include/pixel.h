@@ -8,9 +8,9 @@
 class Pixel
 {
     public:
-        Pixel();
+        Pixel(int nrOfRays);
+        ~Pixel();
 
-        ColorDbl _color;
-        ColorDbl _throughput;
-        std::vector<Ray> _rays;
+        std::vector<ColorDbl*> _colors;
+        std::vector<ColorDbl*> _throughputs;
 };

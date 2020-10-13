@@ -7,13 +7,12 @@ Camera::Camera(int raysPerPixel, int eyePoint) :_raysPerPixel(raysPerPixel), _ey
     else if(eyePoint == 2)
         _eyePoint = glm::vec4(-1.0f, 0.0f, 0.0f, 1.0f);
 
-
     for(int x = 0; x<800; x++)
     {
         std::vector<Pixel> tempRow;
         for(int y = 0; y<800; y++)
         {
-            Pixel pixel;
+            Pixel pixel(raysPerPixel);
             tempRow.push_back(pixel);
         }
         _pixels.push_back(tempRow);
@@ -33,11 +32,13 @@ void Camera::render(Scene &scene)
 
     Threadpool pool(numThreads);
 
+    int nrCompleted = 0;
+
     for(int y = 0; y<800; y++)
     {
         for(int z = 0; z<800; z++)
         {
-            std::function<void()> job = std::bind(&Camera::renderPixel, this, y, z, scene);
+            std::function<void()> job = std::bind(&Camera::renderPixel, this, y, z, scene, nrCompleted);
             pool.addJob(job);
         }
     }
@@ -49,7 +50,7 @@ void Camera::render(Scene &scene)
     std::cout << "Render finished in " << duration << " seconds. Writing resulting image to file...";
 }
 
-void Camera::renderPixel(int y, int z, Scene &scene)
+void Camera::renderPixel(int y, int z, Scene &scene, int &nrCompleted)
 {
     float pixelSideLength = 1.0f/800.0f;
 
@@ -61,32 +62,40 @@ void Camera::renderPixel(int y, int z, Scene &scene)
         float deltaZ = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
         glm::vec3 rayPixelIntersect(0.0f, static_cast<float>(401-y + deltaY)*pixelSideLength, static_cast<float>(z-401 + deltaZ)*pixelSideLength);
         
-        Ray ray(_eyePoint._location, glm::normalize(glm::vec4(rayPixelIntersect - glm::vec3(_eyePoint._location), 1.0f)));
-        fireRay(y, z, ray, scene, 0);
+        Ray ray(_eyePoint._location, glm::normalize(glm::vec4(rayPixelIntersect - glm::vec3(_eyePoint._location/_eyePoint._location.w), 1.0f)));
+        fireRay(y, z, ray, scene, 0, rayNr);
     }
 }
 
-void Camera::fireRay(int y, int z, Ray &ray, Scene &scene, int depth)
+void Camera::fireRay(int y, int z, Ray &ray, Scene &scene, int depth, int baseRayNr)
 {
     Pixel &pixel = _pixels[y][z];
 
     scene.determineIntersections(ray);
 
-    if(ray._rayHit->hasHit && depth < 5)
+    if(ray._rayHit->hasHit && depth < 20)
     {
         Material *material = &ray._rayHit->_hitSurfaceMaterial;
         if(material->_isEmitting)
-            pixel._color += pixel._throughput;
+            *pixel._colors[baseRayNr] += *pixel._throughputs[baseRayNr];
 
         glm::vec4 wo = -ray._direction;
         glm::vec4 wi = material->_brdf->sample(wo, ray._rayHit->_hitSurfaceNormal);
         float pdf = material->_brdf->pdf(wi, ray._rayHit->_hitSurfaceNormal);
 
-        pixel._throughput = pixel._throughput * material->_brdf->eval(material->_color, wi, wo, ray._rayHit->_hitSurfaceNormal) / pdf;
+        *pixel._throughputs[baseRayNr] = *pixel._throughputs[baseRayNr] * material->_brdf->eval(material->_color, wi, wo, ray._rayHit->_hitSurfaceNormal) / pdf;
 
-        Ray bouncedRay(ray._intersectionPoint, wi);
-        fireRay(y, z, bouncedRay, scene, ++depth);
-    }    
+        ray._t = 100000;
+        ray._start = ray._intersectionPoint;
+        ray._direction = wi;
+        ray._rayHit->hasHit = false;
+        fireRay(y, z, ray, scene, ++depth, baseRayNr);
+    }
+    else
+    {
+        //std::cout << "miss\n";
+    }
+    
 }
 
 void Camera::createImage()
@@ -99,7 +108,12 @@ void Camera::createImage()
     {
         for(int y = 0; y<800; y++)
         {
-            ColorDbl pixelColor = _pixels[y][z]._color;
+            ColorDbl accumulativeColor;
+            for(int i = 0; i < _raysPerPixel; i++)
+            {
+                accumulativeColor += *_pixels[y][z]._colors[i];
+            }
+            ColorDbl pixelColor = accumulativeColor/static_cast<double>(_raysPerPixel);
 
             double brightestColor = pixelColor._r;
             if(pixelColor._g > brightestColor)
@@ -107,10 +121,10 @@ void Camera::createImage()
             if(pixelColor._b > brightestColor)
                 brightestColor = pixelColor._b;
 
-            if(brightestColor == 0)
-                brightestColor = 1;
+            if(brightestColor == 0.0)
+                brightestColor = 1.0;
 
-            outFile << (int)(255*pixelColor._r/brightestColor) << " " << (int)(255*pixelColor._g/brightestColor) << " " << (int)(255*pixelColor._b/brightestColor) << "\n";
+            outFile << static_cast<int>(255.0*pixelColor._r) << " " << static_cast<int>(255.0*pixelColor._g) << " " << static_cast<int>(255.0*pixelColor._b) << "\n";
         }
     }
     outFile.close();

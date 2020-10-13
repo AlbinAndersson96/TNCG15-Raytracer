@@ -45,10 +45,10 @@ Back  2\         /5 Front   |------->x
     Triangle t3(roof4, roof6, roof3, cyanMat);
     Triangle t4(roof4, roof5, roof6, cyanMat);
     //Floor
-    Triangle t5(floor1, floor3, floor2, cyanMat);
-    Triangle t6(floor1, floor4, floor3, cyanMat);
-    Triangle t7(floor4, floor6, floor3, cyanMat);
-    Triangle t8(floor4, floor5, floor6, cyanMat);
+    Triangle t5(floor1, floor2, floor3, cyanMat);
+    Triangle t6(floor1, floor3, floor4, cyanMat);
+    Triangle t7(floor4, floor3, floor6, cyanMat);
+    Triangle t8(floor4, floor6, floor5, cyanMat);
     //Back-Left
     Triangle t9(roof1, roof2, floor1, cyanMat);
     Triangle t10(floor1, roof2, floor2, cyanMat);

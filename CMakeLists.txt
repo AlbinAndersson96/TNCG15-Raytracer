@@ -6,8 +6,8 @@ set(SOURCE_DIR "src")
 set(INCLUDE_DIR "include")
 set(BIN_DIR "bin")
 
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "${CMAKE_CXX_FLAGS} -std=c++17 -g -pthread")
-set(CMAKE_CXX_FLAGS_DEBUG_RELEASE "${CMAKE_CXX_FLAGS} -std=c++17 -pthread")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "${CMAKE_CXX_FLAGS} -std=c++20 -g -pthread")
+set(CMAKE_CXX_FLAGS_DEBUG_RELEASE "${CMAKE_CXX_FLAGS} -std=c++20 -pthread")
 
 add_definitions(-DCMAKE_EXPORT_COMPILE_COMMANDS=ON)
 

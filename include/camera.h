@@ -22,8 +22,8 @@ class Camera
         Camera(int raysPerPixel, int eyePoint);
         ~Camera();
         void render(Scene &scene);
-        void renderPixel(int x, int y, Scene &scene);
-        void fireRay(int x, int y, Ray &ray, Scene &scene, int depth);
+        void renderPixel(int x, int y, Scene &scene, int &nrCompleted);
+        void fireRay(int x, int y, Ray &ray, Scene &scene, int depth, int baseRayNr);
         glm::vec4 sampleHemisphere(glm::vec4 normal);
         void createImage();
 
