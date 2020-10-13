@@ -7,11 +7,11 @@ class ColorDbl
         
         double _r, _g, _b;
 
+        ColorDbl& operator+(ColorDbl&);
+        ColorDbl& operator-(ColorDbl&);
+        ColorDbl& operator/(double);
+        ColorDbl& operator*(const double);
+        ColorDbl& operator*(const ColorDbl&);
         ColorDbl& operator+=(const ColorDbl&);
         ColorDbl& operator-=(const ColorDbl&);
 };
-
-ColorDbl operator+(ColorDbl&, ColorDbl&);
-ColorDbl operator-(ColorDbl&, ColorDbl&);
-ColorDbl operator/(ColorDbl&, double);
-ColorDbl operator*(ColorDbl&, double);

@@ -1,7 +1,9 @@
 #include <sphere.h>
 
-Sphere::Sphere(Vertex position, Material material, float radius) : _position(position), _material(material), _radius(radius)
-{}  
+Sphere::Sphere(Vertex position, Material material, float radius) : _position(position), _radius(radius)
+{
+    _material = material;
+}
 
 void Sphere::rayIntersection(Ray &ray)
 {
@@ -17,14 +19,18 @@ void Sphere::rayIntersection(Ray &ray)
     {
         ray._t = dPos;                                                                                                              
         ray._intersectionPoint = ray._start + dPos*rayDir;
-        _normal = glm::normalize(ray._intersectionPoint - _position._location);
-        ray._color = _material._color * glm::abs(glm::dot(_normal, ray._direction));
+        
+        ray._rayHit->hasHit = true;
+        ray._rayHit->_hitSurfaceMaterial = _material;
+        ray._rayHit->_hitSurfaceNormal = glm::normalize(ray._intersectionPoint - _position._location);
     }
     else if(dPos > dNeg && dNeg > 0)
     {
         ray._t = dNeg;
         ray._intersectionPoint = ray._start + dNeg*rayDir;
-        _normal = glm::normalize(ray._intersectionPoint - _position._location);
-        ray._color = _material._color * glm::abs(glm::dot(_normal, ray._direction));
+        
+        ray._rayHit->hasHit = true;
+        ray._rayHit->_hitSurfaceMaterial = _material;
+        ray._rayHit->_hitSurfaceNormal = glm::normalize(ray._intersectionPoint - _position._location);
     }
 }

@@ -13,6 +13,7 @@
 #include <pixel.h>
 #include <ray.h>
 #include <scene.h>
+#include <material.h>
 #include <threadpool.h>
 
 class Camera
@@ -22,6 +23,8 @@ class Camera
         ~Camera();
         void render(Scene &scene);
         void renderPixel(int x, int y, Scene &scene);
+        void fireRay(int x, int y, Ray &ray, Scene &scene, int depth);
+        glm::vec4 sampleHemisphere(glm::vec4 normal);
         void createImage();
 
         Vertex _eyePoint;

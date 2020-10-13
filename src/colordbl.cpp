@@ -3,24 +3,44 @@
 ColorDbl::ColorDbl(double r, double g, double b) : _r(r), _g(g), _b(b)
 {}
 
-ColorDbl operator+(ColorDbl& color1, ColorDbl& color2)
+ColorDbl& ColorDbl::operator+(ColorDbl& rhs)
 {
-    return ColorDbl(color1._r + color2._r, color1._g + color2._g, color1._b + color2._b);
+    this->_r += rhs._r;
+    this->_g += rhs._g;
+    this->_b += rhs._b;
+    return *this;
 }
 
-ColorDbl operator-(ColorDbl& color1, ColorDbl& color2)
-{
-    return ColorDbl(color1._r - color2._r, color1._g - color2._g, color1._b - color2._b);
+ColorDbl& ColorDbl::operator-(ColorDbl& rhs)
+{    
+    this->_r += rhs._r;
+    this->_g += rhs._g;
+    this->_b += rhs._b;
+    return *this;
 }
 
-ColorDbl operator/(ColorDbl& color, double divisor)
+ColorDbl& ColorDbl::operator/(double divisor)
 {
-    return ColorDbl(color._r/divisor, color._g/divisor, color._b/divisor);
+    this->_r /= divisor;
+    this->_g /= divisor;
+    this->_b /= divisor;
+    return *this;
 }
 
-ColorDbl operator*(ColorDbl& color, double factor)
+ColorDbl& ColorDbl::operator*(double factor)
 {
-    return ColorDbl(color._r*factor, color._g*factor, color._b*factor);
+    this->_r *= factor;
+    this->_g *= factor;
+    this->_b *= factor;
+    return *this;
+}
+
+ColorDbl& ColorDbl::operator*(const ColorDbl& rhs)
+{
+    this->_r *= rhs._r;
+    this->_g *= rhs._g;
+    this->_b *= rhs._b;
+    return *this;
 }
 
 ColorDbl& ColorDbl::operator+=(const ColorDbl& rhs)

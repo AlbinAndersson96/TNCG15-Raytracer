@@ -10,13 +10,12 @@
 #include <material.h>
 #include <entity.h>
 
-class Lightsource : public Entity
+class Cube : public Entity
 {
     public:
-        Lightsource(Vertex pos, float sideLength, Material material);
+        Cube(Vertex pos, float sideLength, Material material);
 
         virtual void rayIntersection(Ray &ray);
 
         std::vector<Triangle> _triangles;
-        Material _material;
 };

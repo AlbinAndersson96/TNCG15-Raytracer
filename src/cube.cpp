@@ -1,6 +1,6 @@
-#include <lightsource.h>
+#include <cube.h>
 
-Lightsource::Lightsource(Vertex pos, float sideLength, Material material) : _material(material)
+Cube::Cube(Vertex pos, float sideLength, Material material)
 {
 /*
     From above                              
@@ -19,6 +19,7 @@ Lightsource::Lightsource(Vertex pos, float sideLength, Material material) : _mat
   v1|_______|v3
 */
 
+_material = material;
 
 Vertex v0Top(glm::vec4(pos._location.x - sideLength/2, pos._location.y + sideLength/2, pos._location.z + sideLength/2, 1.0f));
 Vertex v1Top(glm::vec4(pos._location.x - sideLength/2, pos._location.y - sideLength/2, pos._location.z + sideLength/2, 1.0f));
@@ -57,7 +58,7 @@ _triangles.push_back(bot0);
 _triangles.push_back(bot1);
 }
 
-void Lightsource::rayIntersection(Ray &ray)
+void Cube::rayIntersection(Ray &ray)
 {
     for(Triangle triangle : _triangles)
         triangle.rayIntersection(ray);

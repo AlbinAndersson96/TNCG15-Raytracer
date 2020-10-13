@@ -7,7 +7,7 @@
 #include <triangle.h>
 #include <material.h>
 #include <entity.h>
-#include <lightsource.h>
+#include <cube.h>
 
 class Scene
 {

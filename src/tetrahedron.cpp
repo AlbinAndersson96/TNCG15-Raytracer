@@ -1,6 +1,6 @@
 #include <tetrahedron.h>
 
-Tetrahedron::Tetrahedron(Vertex v0, Vertex v1, Vertex v2, Vertex v3, Material material) :   _material(material)
+Tetrahedron::Tetrahedron(Vertex v0, Vertex v1, Vertex v2, Vertex v3, Material material)
 {       
 //       v0
 //       /|\
@@ -11,6 +11,7 @@ Tetrahedron::Tetrahedron(Vertex v0, Vertex v1, Vertex v2, Vertex v3, Material ma
 //       \|/
 //        v2
   
+    _material = material;
   
     _t0 = new Triangle(v0, v1, v2, material);
     _t1 = new Triangle(v0, v1, v3, material);

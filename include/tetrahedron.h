@@ -16,5 +16,4 @@ class Tetrahedron : public Entity
         virtual void rayIntersection(Ray &ray);
 
         Triangle *_t0, *_t1, *_t2, *_t3;
-        Material _material;
 };

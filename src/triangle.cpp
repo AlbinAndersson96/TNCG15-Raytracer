@@ -8,6 +8,7 @@ Triangle::Triangle(Vertex v0, Vertex v1, Vertex v2, Material material) : _v0(v0)
     glm::vec3 V = glm::vec3(v2._location.x - v0._location.x, v2._location.y - v0._location.y, v2._location.z - v0._location.z);
     glm::vec3 surfaceNormal = glm::normalize(glm::cross(U, V));
     _normal = glm::vec4(surfaceNormal, 1.0f);
+    
 }
 
 void Triangle::rayIntersection(Ray& ray)
@@ -51,7 +52,10 @@ void Triangle::rayIntersection(Ray& ray)
         {
             ray._t = t;
             ray._intersectionPoint = ray._start + t * glm::vec4(rayDir, 1);
-            ray._color = _material._color * glm::abs(glm::dot(_normal, ray._direction));
+            
+            ray._rayHit->hasHit = true;
+            ray._rayHit->_hitSurfaceMaterial = _material;
+            ray._rayHit->_hitSurfaceNormal = _normal;
         }
         return;
     }

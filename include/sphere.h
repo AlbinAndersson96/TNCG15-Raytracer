@@ -15,7 +15,5 @@ class Sphere : public Entity
         virtual void rayIntersection(Ray &ray);
 
         Vertex _position;
-        Material _material;
         float _radius;
-        glm::vec4 _normal;
 };
