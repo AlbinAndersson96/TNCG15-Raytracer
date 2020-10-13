@@ -2,6 +2,7 @@
 A path tracer implemented for the course TNCG15 at Linköping University.
 
 ## Build dependencies
+* CMAKE 18
 * GLM
 
 ## Build instructions
